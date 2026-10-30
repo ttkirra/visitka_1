@@ -1,0 +1,262 @@
+/* =====================================================================
+   СТИЛИ САЙТА-ВИЗИТКИ — СЕКЦИЯ 1
+   Палитра (с картинки): butter #f9f6bd, citron #cfd78c, royal purple #700143,
+   персиковый #ffe0b3 — цвет «конфетти»
+   ===================================================================== */
+
+/* :root — самый верхний элемент страницы. Здесь записываем «переменные» цветов,
+   чтобы потом вызывать их по имени: var(--butter) */
+:root {
+  --butter: #f9f6bd;
+  --citron: #cfd78c;
+  --purple: #700143;
+  --peach:  #ffe0b3;
+  --cream:  #fffdf2;
+}
+
+/* * — универсальный селектор: все элементы. Убираем стандартные отступы, считаем размеры по рамке */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* html — включаем плавную прокрутку при переходе по ссылке #next */
+html {
+  scroll-behavior: smooth;
+}
+
+/* body — вся страница: фон, шрифт и цвет текста */
+body {
+  background: var(--cream);
+  color: var(--purple);
+  font-family: "Inter", Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* ---------- ГЛАВНЫЙ ЭКРАН (.hero) ---------- */
+.hero {
+  position: relative;                 /* нужно, чтобы точки-узор (::before, ::after) позиционировались внутри секции */
+  min-height: 100vh;                  /* секция занимает весь экран */
+  display: grid;                      /* сетка из двух колонок: текст + картинка */
+  grid-template-columns: 1.1fr 1fr;
+  gap: 50px;
+  align-items: center;                /* выровнять колонки по вертикали по центру */
+  padding: 60px 8vw;
+  background: var(--butter);
+  overflow: hidden;                   /* всё, что вылезает за секцию, обрезаем */
+}
+
+/* ::before — «виртуальный» элемент ПЕРЕД содержимым секции. Рисуем «конфетти» из точек, как на палитре */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;                           /* на всю секцию */
+  background-image:
+    radial-gradient(circle at  3% 22%, var(--citron) 0 14px, transparent 15px),
+    radial-gradient(circle at 30% 8%,  var(--citron) 0 10px, transparent 11px),
+    radial-gradient(circle at 52% 92%, var(--citron) 0 12px, transparent 13px),
+    radial-gradient(circle at 97% 12%, var(--peach)  0 16px, transparent 17px),
+    radial-gradient(circle at 92% 88%, var(--citron) 0 11px, transparent 12px),
+    radial-gradient(circle at 12% 90%, var(--peach)  0 9px,  transparent 10px);
+  pointer-events: none;               /* точки не мешают нажимать на кнопки */
+}
+
+/* Всё содержимое секции поднимаем над точками */
+.hero-text,
+.hero-image {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- ТЕКСТОВАЯ КОЛОНКА ---------- */
+
+/* .tag — плашка над заголовком */
+.tag {
+  display: inline-block;
+  background: var(--purple);
+  color: var(--butter);
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 22px;
+}
+
+/* h1 — главный заголовок: крупный курсивный шрифт */
+h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(34px, 5vw, 58px);  /* clamp: размер подстраивается под ширину экрана (от 34 до 58 px) */
+  line-height: 1.1;
+  margin-bottom: 18px;
+}
+
+/* h1 em — слова «будущий бизнес-аналитик» внутри заголовка: выделяем другим цветом с подчёркиванием маркером */
+h1 em {
+  font-style: normal;
+  background: linear-gradient(transparent 62%, var(--citron) 62%);  /* «маркер» под текстом */
+}
+
+/* h2 — подзаголовок */
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+/* p — описание */
+.hero-text p {
+  font-size: 18px;
+  max-width: 48ch;                    /* ограничиваем ширину строки, чтобы удобно читать */
+  margin-bottom: 30px;
+}
+
+/* ---------- КНОПКИ ---------- */
+
+/* .buttons — ряд кнопок */
+.buttons {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;                    /* на узком экране кнопки переносятся на новую строку */
+}
+
+/* .btn — общий вид обеих кнопок */
+.btn {
+  text-decoration: none;              /* убираем подчёркивание у ссылок */
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;   /* плавная анимация при наведении */
+}
+
+/* .btn-main — главная кнопка (CTA): тёмная */
+.btn-main {
+  background: var(--purple);
+  color: var(--butter);
+  box-shadow: 0 6px 0 #3d0123;        /* «объёмная» тень снизу */
+}
+
+/* .btn-ghost — вторая кнопка: только рамка */
+.btn-ghost {
+  border: 2px solid var(--purple);
+  color: var(--purple);
+}
+
+/* :hover — когда курсор наведён: кнопка приподнимается */
+.btn:hover {
+  transform: translateY(-3px);
+}
+
+/* :focus-visible — подсветка, когда на кнопку перешли клавишей Tab */
+.btn:focus-visible {
+  outline: 3px solid var(--citron);
+  outline-offset: 3px;
+}
+
+/* ---------- ФОТО ---------- */
+
+/* .hero-image — контейнер всего блока с фото.
+   position: relative — чтобы стикер и плашка позиционировались ОТНОСИТЕЛЬНО него */
+.hero-image {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  justify-self: center;               /* поставить блок по центру своей колонки */
+  margin-bottom: 30px;                /* запас снизу под выступающий стикер */
+}
+
+/* ::before / ::after — две большие точки-«конфетти» позади фото (в цветах палитры) */
+.hero-image::before,
+.hero-image::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;                 /* круг */
+  z-index: -1;                        /* лежат ПОД фото */
+}
+.hero-image::before { width: 120px; height: 120px; background: var(--peach);  top: -34px;   right: -40px; }
+.hero-image::after  { width: 80px;  height: 80px;  background: var(--citron); bottom: 60px; left: -44px; }
+
+/* .photo-frame — рамка-арка: сильно скруглённый верх, фиолетовая рамка и «объёмная» тень сбоку */
+.photo-frame {
+  aspect-ratio: 4 / 5;                /* пропорции рамки: 4 по ширине к 5 по высоте */
+  border: 6px solid var(--purple);
+  border-radius: 999px 999px 28px 28px;   /* верх — полукруг, низ — слегка скруглён */
+  overflow: hidden;                   /* всё, что выходит за арку, обрезается */
+  background: var(--citron);
+  box-shadow: 14px 14px 0 var(--purple);
+  transition: transform 0.3s;
+}
+
+/* :hover — при наведении курсора рамка чуть поворачивается (живая реакция) */
+.hero-image:hover .photo-frame {
+  transform: rotate(-1.5deg);
+}
+
+/* .photo — само фото: заполняет рамку без искажений (object-fit: cover — обрезать лишнее),
+   object-position — какую часть кадра оставить (чуть выше центра, чтобы было видно лицо) */
+.photo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+
+/* .sticker — мини-дашборд: «приклеен» к левому нижнему углу, чуть наклонён */
+.sticker {
+  position: absolute;
+  left: -48px;
+  bottom: -28px;
+  width: 46%;
+  height: auto;
+  border: 4px solid var(--butter);
+  border-radius: 18px;
+  transform: rotate(-7deg);
+  box-shadow: 0 10px 0 rgba(112, 1, 67, 0.25);
+}
+
+/* .chip — плашка-стикер справа сверху */
+.chip {
+  position: absolute;
+  top: 46px;
+  right: -22px;
+  background: var(--citron);
+  color: var(--purple);
+  border: 3px solid var(--purple);
+  border-radius: 30px;
+  padding: 6px 16px;
+  font-weight: 600;
+  font-size: 15px;
+  transform: rotate(7deg);
+  white-space: nowrap;                /* текст плашки не переносится */
+}
+
+/* ---------- ЗАГОТОВКА СЛЕДУЮЩЕЙ СЕКЦИИ ---------- */
+.next {
+  background: var(--purple);
+  color: var(--butter);
+  text-align: center;
+  padding: 70px 20px;
+}
+
+/* h3 — заголовок заготовки */
+.next h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-size: 32px;
+}
+
+/* ---------- АДАПТИВНОСТЬ ----------
+   @media — правила только для узких экранов (телефоны): одна колонка, картинка под текстом */
+@media (max-width: 800px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 40px 6vw 60px;
+  }
+  .hero-image {
+    max-width: 320px;
+    margin-top: 10px;
+  }
+  .sticker { left: -14px; }
+  .chip { right: -8px; }
+}
